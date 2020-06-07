@@ -3,14 +3,16 @@ package com.example.taskfragment.data;
 public class Task {
 
     private int id;
+    private int imageResource;
     private String title = "Task title";
     private String description = "Task description";
     private String status = "Task status";
 
     public Task(){ }
 
-    public Task(int id, String title, String description, String status) {
+    public Task(int id, int imageResource, String title, String description, String status) {
         this.id = id;
+        this.imageResource = imageResource;
         this.title = title;
         this.description = description;
         this.status = status;
@@ -48,4 +50,11 @@ public class Task {
         this.status = status;
     }
 
+    public int getImageResource() {
+        return imageResource;
+    }
+
+    public void setImageResource(int imageResource) {
+        this.imageResource = imageResource;
+    }
 }

@@ -1,12 +1,14 @@
 package com.example.taskfragment.data;
 
+import com.example.taskfragment.R;
+
 import java.util.ArrayList;
 
 public class TaskRepository {
 
     private static TaskRepository sTodoRepository;
 
-    private final ArrayList<Task> mTasks = new ArrayList<>();
+    public final ArrayList<Task> mTasks = new ArrayList<>();
 
     public static TaskRepository getInstance() {
         if (sTodoRepository == null) {
@@ -22,7 +24,7 @@ public class TaskRepository {
     private void initTestData() {
 
         for (int i=0; i < 5; i++){
-            Task task = new Task(i,"Test title " + i,"Test description " + i,
+            Task task = new Task(i, R.drawable.ic_android_foreground,"Test title " + i,"Test description " + i,
                     "To be set!");
             mTasks.add(task);
         }
@@ -71,7 +73,7 @@ public class TaskRepository {
     public Task delete(Task task) {
 
         /* delete task and return the next task */
-        Task nextTask = new Task(0,"Task title", "Task description", "Task status");
+        Task nextTask = new Task(0,R.drawable.ic_android_foreground, "Task title", "Task description", "Task status");
         if ( mTasks.size() == 1 ) {
             mTasks.remove(task);
             mTasks.add(nextTask);

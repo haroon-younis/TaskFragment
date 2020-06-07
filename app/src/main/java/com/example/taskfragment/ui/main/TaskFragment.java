@@ -62,7 +62,7 @@ public class TaskFragment extends Fragment {
         Log.d( LOG_TAG, "onActivityCreated");
         super.onActivityCreated(savedInstanceState);
 
-        // mViewModel = ViewModelProviders.of((getActivity())).get(MainViewModel.class);
+        mViewModel = ViewModelProviders.of((getActivity())).get(MainViewModel.class);
         // TODO: Use the ViewModel
 
     }
@@ -82,7 +82,6 @@ public class TaskFragment extends Fragment {
         mButtonEditTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO refactor detail fragment
                 mViewModel.setTask(mTask);
 
                 TaskEditFragment taskEditFragment = TaskEditFragment.newInstance();

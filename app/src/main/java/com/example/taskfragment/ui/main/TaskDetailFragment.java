@@ -62,7 +62,7 @@ public class TaskDetailFragment extends Fragment {
                     mTask.setStatus(getString(R.string.complete));
                     break;
 
-                case R.id.radioButtonDelete:
+                case R.id.buttonDelete:
                     mTask = sTaskRepository.delete(mTask);
                     doSubmit();
                     break;
@@ -105,9 +105,8 @@ public class TaskDetailFragment extends Fragment {
         radioButtonComplete.setChecked((mTask.getStatus().equals(getString(R.string.complete))));
         radioButtonComplete.setOnClickListener(mTaskListener);
 
-        RadioButton radioButtonDelete = view.findViewById(R.id.radioButtonDelete);
-        radioButtonDelete.setChecked((mTask.getStatus().equals(getString(R.string.delete))));
-        radioButtonDelete.setOnClickListener(mTaskListener);
+        Button buttonDelete = view.findViewById(R.id.buttonDelete);
+        buttonDelete.setOnClickListener(mTaskListener);
 
         Button submitButton = view.findViewById(R.id.buttonSubmit);
         submitButton.setOnClickListener(mTaskListener);

@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.TaskAddFragment">
 
-
     <EditText
         android:id="@+id/editTextTitle"
         android:layout_width="0dp"

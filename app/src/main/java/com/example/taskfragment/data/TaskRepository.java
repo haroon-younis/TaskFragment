@@ -23,8 +23,8 @@ public class TaskRepository {
 
     private void initTestData() {
 
-        for (int i=0; i < 5; i++){
-            Task task = new Task(i, R.drawable.ic_android_foreground,"Test title " + i,"Test description " + i,
+        for (int i=0; i < 25; i++){
+            Task task = new Task(i, R.drawable.ic_android_foreground,"TODO title " + i,"TODO description " + i,
                     "To be set!");
             mTasks.add(task);
         }

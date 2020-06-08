@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -47,6 +50,8 @@ public class TaskFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
+        setHasOptionsMenu(true);
 
         Log.d( LOG_TAG, "onCreateView");
 
@@ -120,6 +125,27 @@ public class TaskFragment extends Fragment {
 
         mViewModel = ViewModelProviders.of((getActivity())).get(MainViewModel.class);
         // TODO: Use the ViewModel
+
+    }
+
+    public void addTodo(){
+        TaskAddFragment taskAddFragment = TaskAddFragment.newInstance();
+        assert getFragmentManager() != null;
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, taskAddFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    // for menu item
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.addTodo) {
+            addTodo();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
 
     }
 

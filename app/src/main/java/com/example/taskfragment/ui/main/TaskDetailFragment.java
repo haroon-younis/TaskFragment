@@ -67,6 +67,10 @@ public class TaskDetailFragment extends Fragment {
                     doSubmit();
                     break;
 
+                case R.id.buttonEdit:
+                    editTask();
+                    break;
+
                 default:
                     break;
             }
@@ -88,6 +92,17 @@ public class TaskDetailFragment extends Fragment {
 
     }
 
+    private void editTask(){
+        mViewModel.setTask(mTask);
+
+        TaskEditFragment taskEditFragment = TaskEditFragment.newInstance();
+        assert getFragmentManager() != null;
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, taskEditFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
 
     private void updateUI(View view) {
 
@@ -107,6 +122,9 @@ public class TaskDetailFragment extends Fragment {
 
         Button buttonDelete = view.findViewById(R.id.buttonDelete);
         buttonDelete.setOnClickListener(mTaskListener);
+
+        Button buttonEdit = view.findViewById(R.id.buttonEdit);
+        buttonEdit.setOnClickListener(mTaskListener);
 
         Button submitButton = view.findViewById(R.id.buttonSubmit);
         submitButton.setOnClickListener(mTaskListener);

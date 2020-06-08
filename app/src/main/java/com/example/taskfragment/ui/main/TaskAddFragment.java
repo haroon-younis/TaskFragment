@@ -1,17 +1,20 @@
 package com.example.taskfragment.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.example.taskfragment.R;
 import com.example.taskfragment.data.Task;
@@ -48,13 +51,20 @@ public class TaskAddFragment extends Fragment {
 
     }
 
-    private EditText mEditTextTitle;
-    private EditText mEditTextDescription;
+    private EditText mEditTextTitle, mEditTextDescription;
+    private ImageView mTodoImage;
 
     private void updateUI(View view) {
 
         mEditTextTitle = view.findViewById(R.id.editTextTitle);
         mEditTextDescription = view.findViewById(R.id.editTextDescription);
+        mTodoImage = view.findViewById(R.id.todoImage);
+        mTodoImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dispatchTakePictureIntent();
+            }
+        });
 
         Button mButtonAddTask = view.findViewById(R.id.buttonAddTask);
         mButtonAddTask.setOnClickListener(new View.OnClickListener(){
@@ -79,5 +89,15 @@ public class TaskAddFragment extends Fragment {
         });
 
     }
+
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
 
 }

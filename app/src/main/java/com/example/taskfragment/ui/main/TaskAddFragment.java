@@ -1,8 +1,11 @@
 package com.example.taskfragment.ui.main;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
@@ -19,6 +22,10 @@ import android.widget.ImageView;
 import com.example.taskfragment.R;
 import com.example.taskfragment.data.Task;
 import com.example.taskfragment.data.TaskRepository;
+
+import java.io.IOException;
+
+import static android.app.Activity.RESULT_OK;
 
 public class TaskAddFragment extends Fragment {
 
@@ -62,7 +69,7 @@ public class TaskAddFragment extends Fragment {
         mTodoImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dispatchTakePictureIntent();
+                chooseImage();
             }
         });
 
@@ -90,14 +97,30 @@ public class TaskAddFragment extends Fragment {
 
     }
 
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
+    private int PICK_IMAGE_REQUEST = 1;
+    public void chooseImage() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Photo"), PICK_IMAGE_REQUEST);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        //super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
+            Uri uri = data.getData();
+
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getApplicationContext().getContentResolver(), uri);
+                Log.d(LOG_TAG, String.valueOf(bitmap));
+
+                mTodoImage.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.d(LOG_TAG, "onActivityResult: "+e.getMessage());
+            }
+        }
+    }
 }

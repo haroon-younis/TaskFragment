@@ -1,6 +1,9 @@
 package com.example.taskfragment.data;
 
+import android.graphics.Bitmap;
+
 import com.example.taskfragment.R;
+import com.example.taskfragment.ui.main.TaskFragment;
 
 import java.util.ArrayList;
 
@@ -23,7 +26,7 @@ public class TaskRepository {
 
     private void initTestData() {
 
-        for (int i=0; i < 25; i++){
+        for (int i=0; i < 5; i++){
             Task task = new Task(i, R.drawable.ic_android_foreground,"TODO title " + i,"TODO description " + i,
                     "To be set!");
             mTasks.add(task);

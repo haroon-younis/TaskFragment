@@ -1,15 +1,11 @@
 package com.example.taskfragment.ui.main;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,13 +28,9 @@ public class TaskFragment extends Fragment {
     private final TaskRepository sTaskRepository = TaskRepository.getInstance();
     private MainViewModel mViewModel;
 
-    private TextView mTextViewTitle;
-    private TextView mTextViewDescription;
-    private TextView mTextViewStatus;
-
     private RecyclerView mRecyclerView;
-    private TaskAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+
+    private final FragmentActivity activity = getActivity();
 
     public static TaskFragment newInstance() {
         return new TaskFragment();
@@ -63,14 +55,16 @@ public class TaskFragment extends Fragment {
 
         final View view = inflater.inflate(R.layout.fragment_task, container, false);
 
-        updateUI(view);
-
-        final FragmentActivity activity = getActivity();
-
         mRecyclerView = view.findViewById(R.id.recyclerView);
+        initRecyclerView();
+
+        return view;
+    }
+
+    private void initRecyclerView() {
         mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(activity);
-        mAdapter = new TaskAdapter(sTaskRepository.mTasks);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(activity);
+        TaskAdapter mAdapter = new TaskAdapter(sTaskRepository.mTasks);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -96,8 +90,6 @@ public class TaskFragment extends Fragment {
                 doSubmit();
             }
         });
-
-        return view;
     }
 
     private void doSubmit() {
@@ -112,7 +104,6 @@ public class TaskFragment extends Fragment {
         transaction.replace(R.id.container, taskFragment);
         transaction.addToBackStack(null);
         transaction.commit();
-
     }
 
     @Override
@@ -122,8 +113,6 @@ public class TaskFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         mViewModel = ViewModelProviders.of((getActivity())).get(MainViewModel.class);
-        // TODO: Use the ViewModel
-
     }
 
     public void addTodo(){
@@ -144,123 +133,6 @@ public class TaskFragment extends Fragment {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-
-    private void updateUI(View view) {
-
-        mTextViewTitle = view.findViewById(R.id.textViewTitle);
-        mTextViewDescription = view.findViewById(R.id.textViewDescription);
-        //mTextViewStatus = view.findViewById(R.id.textViewStatus);
-
-//        mTextViewTitle.setText(mTask.getTitle());
-//        mTextViewDescription.setText(mTask.getDescription());
-//        mTextViewStatus.setText(mTask.getStatus());
-
-//        /* Edit button*/
-//        Button mButtonEditTask = view.findViewById(R.id.buttonEditTask);
-//        mButtonEditTask.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mViewModel.setTask(mTask);
-//
-//                TaskEditFragment taskEditFragment = TaskEditFragment.newInstance();
-//                assert getFragmentManager() != null;
-//                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-//                transaction.replace(R.id.container, taskEditFragment);
-//                transaction.addToBackStack(null);
-//                transaction.commit();
-//            }
-//        });
-
-//        Button mButtonNewTask = view.findViewById(R.id.buttonNewTask);
-//        mButtonNewTask.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v) {
-//
-//                mViewModel.setTask(mTask);
-//
-//                TaskAddFragment taskAddFragment = TaskAddFragment.newInstance();
-//                assert getFragmentManager() != null;
-//                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-//                transaction.replace(R.id.container, taskAddFragment);
-//                transaction.addToBackStack(null);
-//                transaction.commit();
-//
-//            }
-//        });
-
-//        Button mButtonNext = view.findViewById(R.id.buttonNext);
-//        mButtonNext.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View view) {
-//
-//                if ( sTaskRepository.isLast(mTask)) {
-//
-//                    Toast toast = Toast.makeText(
-//                            getActivity(),
-//                            "Hurray! end of tasks, time to plant trees and read poetry!",
-//                            Toast.LENGTH_SHORT);
-//                    toast.setGravity(Gravity.CENTER, 0, 0);
-//                    toast.show();
-//
-//                } else {
-//
-//                    mTask = sTaskRepository.getNextTask(mTask);
-//                    mViewModel.setTask(mTask);
-//                    mTextViewTitle.setText(mTask.getTitle());
-//                    mTextViewDescription.setText(mTask.getDescription());
-//                    mTextViewStatus.setText(mTask.getStatus());
-//
-//                }
-//            }
-//
-//        });
-
-//        Button mButtonDetail = view.findViewById(R.id.buttonDetail);
-//        mButtonDetail.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v) {
-//
-//                mViewModel.setTask(mTask);
-//
-//                TaskDetailFragment taskDetailFragment = TaskDetailFragment.newInstance();
-//                assert getFragmentManager() != null;
-//                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-//                transaction.replace(R.id.container, taskDetailFragment);
-//                transaction.addToBackStack(null);
-//                transaction.commit();
-//
-//            }
-//        });
-
-//        Button mButtonPrev = view.findViewById(R.id.buttonPrev);
-//        mButtonPrev.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View view) {
-//
-//                if ( sTaskRepository.isFirst(mTask)) {
-//
-//                    Toast toast = Toast.makeText(
-//                            getActivity(),
-//                            "First task!",
-//                            Toast.LENGTH_SHORT);
-//                    toast.setGravity(Gravity.CENTER, 0, 0);
-//                    toast.show();
-//
-//                } else {
-//
-//                    mTask = sTaskRepository.getPrevTask(mTask);
-//                    mViewModel.setTask(mTask);
-//                    mTextViewTitle.setText(mTask.getTitle());
-//                    mTextViewDescription.setText(mTask.getDescription());
-//                    mTextViewStatus.setText(mTask.getStatus());
-//
-//                }
-//            }
-//
-//        });
-
     }
 
 }

@@ -1,7 +1,5 @@
 package com.example.taskfragment.data;
 
-import android.graphics.Bitmap;
-
 public class Task {
 
     private int id;

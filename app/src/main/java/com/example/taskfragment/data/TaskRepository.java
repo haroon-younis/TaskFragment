@@ -1,9 +1,6 @@
 package com.example.taskfragment.data;
 
-import android.graphics.Bitmap;
-
 import com.example.taskfragment.R;
-import com.example.taskfragment.ui.main.TaskFragment;
 
 import java.util.ArrayList;
 
